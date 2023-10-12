@@ -42,24 +42,11 @@ def render_tick():
         elif ball_state == BallState.GOAL_RIGHT:
             ui.give_score_right()
 
-        ball_size = ball.get_size()
-        p_width = 20
-        p_hight = paddle_left.get_hight()
-        range_y_left = range(int(paddle_left.ycor() - p_hight), int(paddle_left.ycor() + p_hight)) 
-        range_y_right = range(int(paddle_right.ycor() - p_hight), int(paddle_right.ycor() + p_hight))
+        paddle_left.bounce_ball_by_intersection(ball)
+        paddle_right.bounce_ball_by_intersection(ball)
 
         ball.move()
 
-        if ball.xcor() < paddle_left.xcor() + p_width:
-            if ball.ycor() < paddle_left.ycor() and ball.ycor() + ball.get_size() > paddle_left.ycor() - p_hight or \
-                ball.ycor() > paddle_left.ycor() and ball.ycor() - ball.get_size() < paddle_left.ycor() + p_hight:
-                ball.bounce_y()
-
-        elif ball.xcor() - ball.get_size()/2 < paddle_left.xcor() + p_width and ball.ycor() in range_y_left:
-            ball.bounce_x()
-        # elif ball.xcor() < paddle_left.xcor() + p_width and ball.ycor() in range_y_left:
-        #     ball.bounce_x()
-        
         ui.display()
         screen.update()
 
